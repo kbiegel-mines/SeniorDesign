@@ -4,11 +4,15 @@ Spyder Editor
 
 This is a temporary script file.
 """
+
+# Import Libraries 
 import numpy as np
 from matplotlib import pyplot as plt
 from random import randint
+
+# Read in Data from File
 """ 
-%%%% UNCOMMENT THIS FOR READING IN A DATA FILE TO OVERLAY %%%%
+# UNCOMMENT THIS FOR READING IN A DATA FILE TO OVERLAY
 filename = 'GaussData.txt'
 with open(filename) as f: # with/open/as syntax useful for files
     array = [[float(x) for x in line.split()] for line in f]
@@ -23,18 +27,21 @@ gaussG = nparray[:,2]
 gaussG = gaussG.reshape(41,41)
 f.close()
 """
+
+# Setting Variables
 n=9 # set n to be the maximum value on the grid (ie x=[0,1,2,3,4,5,6,7,8,9] -> n=9)
+
+#Create grid
 x = np.arange(0,n+1,1)
 y = np.arange(0,n+1,1)
 grid = np.meshgrid(x,y)
+start = 0
 
+# Plotting Parameters
 plt.scatter(grid[0],grid[1])
 plt.axis([0,n,0,n])
 plt.xlabel('x (m)')
 plt.ylabel('y (m)')
-
-start = 0
-
 plt.scatter(grid[0][start][start],grid[1][start][start])
 plt.axis([0,n,0,n])
 plt.savefig('Startingpoint.png',format='png')
