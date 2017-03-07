@@ -10,8 +10,8 @@ import math
 from moviepy.editor import ImageSequenceClip
 
 # Setting Variables
-n = 9  # set n to be the maximum value on the grid (ie x=[0,1,2,3,4,5,6,7,8,9] -> n=9)
-totalCount = 75  # total number of points to be surveyed
+n = 10  # set n to be the maximum value on the grid (ie x=[0,1,2,3,4,5,6,7,8,9] -> n=9)
+totalCount = 120  # total number of points to be surveyed
 nearestNeighbors = 8  # 8 for a square grid (depends on shape but not sure how to incorporate)
 
 #Create grid
@@ -22,7 +22,7 @@ compare = np.zeros((n+1, n+1))
 
 # Starting Point
 currentx = 3
-currenty = 5
+currenty = 6
 count = 1
 images = []
 
@@ -184,6 +184,6 @@ for i in range(count+1, totalCount):
 
 
 # Make Movie
-multiclip = ImageSequenceClip(images, fps=3)
+multiclip = ImageSequenceClip(images, fps=4)
 multiclip.write_videofile('Pathing.mp4', audio=False)
             
