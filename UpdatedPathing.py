@@ -10,11 +10,22 @@ import numpy as np
 from matplotlib import pyplot as plt
 import math
 from moviepy.editor import ImageSequenceClip
+import random
 
-
+#################################################
+#################################################
+##################### Only section of code to be edited by user
 # Setting Variables
 n = 10  # set n to be the maximum value on the grid (ie x=[0,1,2,3,4,5,6,7,8,9] -> n=9)
-totalCount = 120  # total number of points to be surveyed
+totalCount = 5  # total number of points to be surveyed
+# Starting Point
+current_x = 9
+current_y = 7
+# Textfile for Sgems input file
+textfile = 'sgemsInput.txt'
+########################################
+########################################
+########################################
 
 #Create grids and arrays
 x = np.arange(0, n+1, 1)
@@ -29,11 +40,6 @@ for i in range(2,5):
 #data = np.random.random_integers(1, 5, (n+1, n+1))
 images = []
 
-# Starting Point
-current_x = 9
-current_y = 7
-current = 1
-
 # Plotting Parameters
 plt.contourf(data, cmap='coolwarm')
 plt.scatter(grid[0], grid[1])
@@ -41,6 +47,7 @@ plt.axis([0, n, 0, n])
 plt.xlabel('x (m)')
 plt.ylabel('y (m)')
 
+current = 1
 
 # Plot first point and save image
 plt.contourf(data, cmap='coolwarm')
@@ -60,6 +67,14 @@ plt.axis([0, n, 0, n])
 
 array = plot.get_offsets()
 
+# Start text file
+file_object = open(textfile, 'w')
+file_object.write('objectName \n')
+file_object.write('3 \n')
+file_object.write('x \n')
+file_object.write('y \n')
+file_object.write('gravity value \n')
+file_object.close()
 
 def createDistance(x, y, distance):
     """ Function takes in an x and y value (int) and a distance array (np) and
@@ -134,6 +149,10 @@ for i in range(current+1, totalCount):
     # mark point as visited
     count[current_x][current_y] = count[current_x][current_y]+1
 
+    # Add point to file object
+    file_object = open(textfile, 'a')
+    file_object.write('%s %s %s \n' % (current_x, current_y, random.randint(1,5)))
+    file_object.close()
 
 # Make Movie
 multiclip = ImageSequenceClip(images, fps=4)
