@@ -17,9 +17,9 @@ import alltogethernow
 
 
 #### variables
-iterations = 10 #number of recycling iterations
-current_x=5
-current_y=4
+iterations = 31 #number of recycling iterations
+current_x=10
+current_y=0
 path = 'C:/Users/Katherine/Documents/GitHub/SeniorDesign/'
 input_location = 'inputs/sgems_inputs.txt'
 videoclips = []
@@ -48,7 +48,7 @@ for i in range(iterations):
     # run Sgems
     [nx,ny,varmap] = alltogethernow.batchrun(i=i,path=path,pointset=input_location)
     # Run pathing
-    [current_x, current_y, input_location] = Pathing.runPathing(n=nx, totalCount=5, current_x=current_x, current_y=current_y, gauss_data=data, data=varmap, count=count, loopCount=i)
+    [current_x, current_y, input_location, count] = Pathing.runPathing(n=nx, totalCount=15, current_x=current_x, current_y=current_y, gauss_data=data, data=varmap, count=count, loopCount=i)
     # Add video clip to array
     clip = VideoFileClip('VideoStitch/Pathing_%s.mp4' % i)
     videoclips.append(clip)
