@@ -10,7 +10,6 @@ Created on Thu Mar 23 12:26:00 2017
 # Import Libraries
 import numpy as np
 from moviepy.editor import VideoFileClip, concatenate_videoclips
-import os
 
 # Import scripts
 import Pathing
@@ -19,9 +18,12 @@ import alltogethernow
 
 #### variables
 iterations = 10 #number of recycling iterations
-path = os.getcwd()
-input_location = 'sgems_inputs.txt'
+current_x=5
+current_y=4
+path = 'C:/Users/Katherine/Documents/GitHub/SeniorDesign/'
+input_location = 'inputs/sgems_inputs.txt'
 videoclips = []
+count = np.zeros((41, 41))
 # Import gauss data
 dataname1 = 'GaussData.txt' #'test_fullout.txt' 
 with open(dataname1) as f: 
@@ -46,9 +48,9 @@ for i in range(iterations):
     # run Sgems
     [nx,ny,varmap] = alltogethernow.batchrun(i=i,path=path,pointset=input_location)
     # Run pathing
-    [current_x, current_y] = Pathing.runPathing(n=nx, totalCount=5, current_x=1, current_y=1, gauss_data=data, data=varmap, textfile=input_location, loopCount=i)
+    [current_x, current_y, input_location] = Pathing.runPathing(n=nx, totalCount=5, current_x=current_x, current_y=current_y, gauss_data=data, data=varmap, count=count, loopCount=i)
     # Add video clip to array
-    clip = VideoFileClip('Pathing_%s.mp4' % i)
+    clip = VideoFileClip('VideoStitch/Pathing_%s.mp4' % i)
     videoclips.append(clip)
     
 # Output a video file that shows multiple realizations

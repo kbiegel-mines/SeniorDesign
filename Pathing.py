@@ -16,8 +16,8 @@ def createDistance(x, y, distance, n):
     """ Function takes in an x and y value (int) and a distance array (np) and
     fills distance array with the physical distance each point is from the current
     point.  Current points set at 1000 to prevent double counting."""
-    for i in range(0, n+1):
-        for j in range(0, n+1):
+    for i in range(0, n):
+        for j in range(0, n):
             distance[i][j] = math.sqrt((x-i)**2 + (y-j)**2)
     
     distance[x][y] = 1000
@@ -30,12 +30,15 @@ def totalWeighting(distance, count, data, n):
     returns a total weighting array that is calculated using the RMS of the 
     other arrays.  The way this is calculated could be changed later."""
     
-    weighting = np.zeros((n+1, n+1))
-    inverseData = np.zeros((n+1, n+1))
-    for i in range(0, n+1):
-        for j in range(0, n+1):
-            inverseData[i][j] = 1./float(data[i][j]) 
-    weighting = np.sqrt(distance**2 + count**2 + (5*inverseData)**2)
+    weighting = np.zeros((n, n))
+    inverseData = np.zeros((n, n))
+    for i in range(0, n):
+        for j in range(0, n):
+            if data[i][j]==0:
+                inverseData[i][j] = 1./0.0001
+            else:
+                inverseData[i][j] = 1./float(data[i][j]) 
+    weighting = np.sqrt(distance**2 + count**2 + inverseData**2)
     #weighting = np.sqrt(distance**2 + count**2)
     
     return weighting
@@ -67,7 +70,7 @@ def newPoint(x, y, weighting, n):
     return x,y
 
 
-def runPathing(n, totalCount, current_x, current_y, gauss_data, data, textfile, loopCount=1):
+def runPathing(n, totalCount, current_x, current_y, gauss_data, data, count, loopCount=1):
     """Function that runs pathing outside of script allowing combination with
     sgems function.
     n = integer, grid size, set to maximum grid value
@@ -80,18 +83,19 @@ def runPathing(n, totalCount, current_x, current_y, gauss_data, data, textfile, 
     loopCount = integer, how many times you want to loop through sgems/pathing,
                 default value of 1 for a singular run through script"""
     
+    print(n)
     #Create grids and arrays
-    x = np.arange(0, n+1, 1)
-    y = np.arange(0, n+1, 1)
+    x = np.arange(0, n, 1)
+    y = np.arange(0, n, 1)
     grid = np.meshgrid(x, y)
-    count = np.zeros((n+1, n+1))
-    distance = np.zeros((n+1, n+1))
+    distance = np.zeros((n, n))
     #data = np.ones((n+1, n+1))
     #for i in range(2,5):
     #    for j in range(2,5):
     #        data[i][j] = 10
     #data = np.random.random_integers(1, 5, (n+1, n+1))
     images = []
+    textfile = 'inputs/sgems_inputs_%i.txt' % loopCount
     
     # Plotting Parameters
     plt.contourf(data, cmap='coolwarm')
@@ -117,6 +121,8 @@ def runPathing(n, totalCount, current_x, current_y, gauss_data, data, textfile, 
     plt.contourf(data, cmap='coolwarm')
     plot = plt.scatter([], [])
     plt.axis([0, n, 0, n])
+    plt.xlabel('x (m)')
+    plt.ylabel('y (m)')
     
     array = plot.get_offsets()
     
@@ -155,7 +161,10 @@ def runPathing(n, totalCount, current_x, current_y, gauss_data, data, textfile, 
     
     # Make Movie
     multiclip = ImageSequenceClip(images, fps=3)
-    multiclip.write_videofile('Pathing_%s.mp4' % loopCount, audio=False)
+    multiclip.write_videofile('VideoStitch/Pathing_%s.mp4' % loopCount, audio=False)
+    
+    print(current_x)
+    print(current_y)
     
     # Return last point measured
-    return current_x, current_y
+    return current_x, current_y, textfile

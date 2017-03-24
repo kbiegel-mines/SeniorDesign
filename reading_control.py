@@ -61,7 +61,7 @@ def computeVARmaps(gridfile,datafile):
     #for i in range(len(nparray1[0,:])):
     for ii in range(len(nparray1[:,0])):
         varmap1[ii] = np.mean(STDdata1[ii,:])        
-    varmap1 = varmap1.reshape(40,40)
+    varmap1 = varmap1.reshape(41,41)
     
     # Normalize to a PDF (for combining with other weights)
     varmap1_pdf = varmap1/(np.sum(np.sum(varmap1)))
