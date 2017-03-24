@@ -20,7 +20,7 @@ def createDistance(x, y, distance, n):
         for j in range(0, n):
             distance[i][j] = math.sqrt((x-i)**2 + (y-j)**2)
     
-    distance[x][y] = 1000
+    distance[x][y] = 10000000
             
     return distance
 
@@ -38,7 +38,7 @@ def totalWeighting(distance, count, data, n):
                 inverseData[i][j] = 1./0.0001
             else:
                 inverseData[i][j] = 1./float(data[i][j]) 
-    weighting = np.sqrt(distance**2 + count**2 + inverseData**2)
+    weighting = np.sqrt(distance**2 + (10*count)**2 + inverseData**2)
     #weighting = np.sqrt(distance**2 + count**2)
     
     return weighting
@@ -48,7 +48,7 @@ def newPoint(x, y, weighting, n):
     the point with the minimum weighting and then find the point closest to the
     current point to move to."""
     closest = np.argmin(weighting)
-    closest_tuple = np.unravel_index(closest, (n+1, n+1))
+    closest_tuple = np.unravel_index(closest, (n, n))
     closestX, closestY = closest_tuple
     
     # Set x value
@@ -82,7 +82,7 @@ def runPathing(n, totalCount, current_x, current_y, gauss_data, data, count, loo
     textfile = string, sGemsinput file location
     loopCount = integer, how many times you want to loop through sgems/pathing,
                 default value of 1 for a singular run through script"""
-    
+    print(gauss_data.tolist())
     print(n)
     #Create grids and arrays
     x = np.arange(0, n, 1)
@@ -100,27 +100,27 @@ def runPathing(n, totalCount, current_x, current_y, gauss_data, data, count, loo
     # Plotting Parameters
     plt.contourf(data, cmap='coolwarm')
     plt.scatter(grid[0], grid[1])
-    plt.axis([0, n, 0, n])
+    plt.axis([0, n-1, 0, n-1])
     plt.xlabel('x (m)')
     plt.ylabel('y (m)')
     
     current = 1
+    print(current)
     
     # Plot first point and save image
     plt.contourf(data, cmap='coolwarm')
     plt.scatter(grid[0][current_x][current_y], grid[1][current_x][current_y])
     path = 'images/img%02d.png' % current
     plt.savefig(path, format='png')
-    images.append(path)
     
     # Mark first point as visited
-    count[current_x][current_y] = 1
+    count[current_x][current_y] = 10
     
     # Ready plot for inside if statement
     fig = plt.figure()
     plt.contourf(data, cmap='coolwarm')
     plot = plt.scatter([], [])
-    plt.axis([0, n, 0, n])
+    plt.axis([0, n-1, 0, n-1])
     plt.xlabel('x (m)')
     plt.ylabel('y (m)')
     
@@ -152,7 +152,7 @@ def runPathing(n, totalCount, current_x, current_y, gauss_data, data, count, loo
         images.append(path)
     
         # mark point as visited
-        count[current_x][current_y] = count[current_x][current_y]+1
+        count[current_x][current_y] = count[current_x][current_y]+10
     
         # Add point to file object
         file_object = open(textfile, 'a')
@@ -165,6 +165,13 @@ def runPathing(n, totalCount, current_x, current_y, gauss_data, data, count, loo
     
     print(current_x)
     print(current_y)
+    #print(weight.tolist())
+    #print(distance.tolist())
+    #print(count.tolist())
+    print(weight[7][16])
+    print(distance[7][16])
+    print(count[7][16])
+    print(current)
     
     # Return last point measured
-    return current_x, current_y, textfile
+    return current_x, current_y, textfile, count
