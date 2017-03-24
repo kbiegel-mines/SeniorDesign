@@ -9,7 +9,7 @@ import os
 import numpy as np
 import random
 from string import *
-from sgems_script_wip_WRITE import writeSGEMSscript
+from sgems_script_WRITE_revised import writeSGEMSscript
 from reading_control import computeVARmaps
 
 # Creates the 2 files (batch and text) needed to run 
@@ -26,7 +26,7 @@ def batchrun(i,path,pointset):
     # path = 'C://Users/Ashton/Documents/School/SeniorDesign/wip/'
        
     # Filenames for running the batch
-    scriptname = 'sgems_script%d.py' % (i)
+    scriptname = 'scripts/sgems_script%d.py' % (i)
     batchname = 'test%d.bat' % (i)
     runname = 'testrun%d.txt' % (i)
     
@@ -39,7 +39,7 @@ def batchrun(i,path,pointset):
     
     # SGEMS output data file names
     gridfile = 'gridxy.txt'
-    outfile = 'testout%d.txt' % (i)
+    outfile = 'outputs/testout%d.txt' % (i)
     
     numreal = '10'
     
