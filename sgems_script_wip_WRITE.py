@@ -1,16 +1,15 @@
 
-
 #import numpy as np
 
 # This script is to be called using RunScript in SGeMS
 # The script will load a point set as hard data, create a new grid, then run sgsim
 # on the grid with the input hard data.  The script will save the realizations
 # into a single output file to be read in by another python sript (reading_control)
-def writeSGEMSscript(scriptname,pointset,gridname,hardname,propname,numreal,gridfile,outfile):
+def writeSGEMSscript(path,scriptname,pointset,gridname,hardname,propname,numreal,gridfile,outfile):
     
-    path = 'C://Users/Ashton/Documents/School/SeniorDesign/wip/'
-    localpath = str('Z:/adit/My Documents/SeniorDesign/wip/') # for running this on a school computer
-    fid = open(localpath+scriptname,'w') # replace localpath with path if running on SGeMS laptop
+    #path = 'C://Users/Ashton/Documents/School/SeniorDesign/wip/'
+    #localpath = str('Z:/adit/My Documents/SeniorDesign/wip/') # for running this on a school computer
+    fid = open(path+scriptname,'w') # replace localpath with path if running on SGeMS laptop
     #%% Importing current point set
     fid.write("import sgems \n")
     # Import point set
@@ -33,18 +32,18 @@ def writeSGEMSscript(scriptname,pointset,gridname,hardname,propname,numreal,grid
     #%% RUNNING IN SGeMS
         
     # Load an existing project (necessary so that SGeMS has a 'place' to work)
-    fid.write("sgems.execute('LoadProject C:/Users/Ashton/Documents/School/SeniorDesign/project_3-2.prj') \n")
+    fid.write("sgems.execute('LoadProject C:/Users/Katherine/Documents/GitHub/SeniorDesign/project.prj') \n")
     
     # Initialize grid
     ###gridname = 'testgrid'    # Name of grid followed by grid dimensions
-    fid.write("nx = '40' \n")
-    fid.write("ny = '40' \n")
+    fid.write("nx = '41' \n")
+    fid.write("ny = '41' \n")
     fid.write("nz = '1' \n")
     fid.write("dx = '0.1' \n")
     fid.write("dy = '0.1' \n")
     fid.write("dz = '1.0' \n")
-    fid.write("ox = '-2' \n")
-    fid.write("oy = '-2' \n")
+    fid.write("ox = '0' \n")
+    fid.write("oy = '0' \n")
     fid.write("oz = '0' \n")
     fid.write("sgems.execute('NewCartesianGrid '+gridname+'::'+nx+'::'+ny+'::'+nz+'::'+dx+'::'+dy+'::'+dz+'::'+ox+'::'+oy+'::'+oz) \n")
     

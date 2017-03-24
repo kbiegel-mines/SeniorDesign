@@ -16,9 +16,9 @@ def computeVARmaps(gridfile,datafile):
     f.close()
     
     x = nparray[:,0] # x is first collumn, y is second
-    x = x.reshape(40,40)
+    x = x.reshape(41,41)
     y = nparray[:,1] 
-    y = y.reshape(40,40)
+    y = y.reshape(41,41)
     
     #%% Importing data file
     dataname1 = datafile #'test_fullout.txt' 
@@ -39,9 +39,9 @@ def computeVARmaps(gridfile,datafile):
     
     datamean1 = np.array(datamean1)
     
-    plt.figure()
-    plt.pcolor(x,y,datamean1.reshape(40,40))
-    plt.title('Mean of realizations')
+    #plt.figure()
+    #plt.pcolor(x,y,datamean1.reshape(40,40))
+    #plt.title('Mean of realizations')
     
     #%% Calculating variances
     datalist1 = []
@@ -67,11 +67,11 @@ def computeVARmaps(gridfile,datafile):
     varmap1_pdf = varmap1/(np.sum(np.sum(varmap1)))
     
     #%% Plotting variance map
-    plt.figure()
-    fig1 = plt.pcolor(x,y,varmap1_pdf, vmin=0, vmax=np.max(varmap1_pdf))
-    plt.colorbar(label = 'variance')
-    plt.title("variance map from input realizations")
-    plt.xlabel('x (m)')
-    plt.ylabel('y (m)')
+    #plt.figure()
+    #fig1 = plt.pcolor(x,y,varmap1_pdf, vmin=0, vmax=np.max(varmap1_pdf))
+    #plt.colorbar(label = 'variance')
+    #plt.title("variance map from input realizations")
+    #plt.xlabel('x (m)')
+    #plt.ylabel('y (m)')
 
     return x,y,varmap1_pdf
