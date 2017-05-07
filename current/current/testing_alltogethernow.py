@@ -17,7 +17,7 @@ import time
 # of the script for SGeMS to run.  On successful run, it will output the
 # output file specified in the SGeMS script to the w-d.
 
-def batchrun(i,path,numreal,pointset):
+def batchrun(i,path,numreal,n,pointset):
     """i, integer for iteration number.  
        path, string indicating path of W.D. 
        pointset, string indicating txt file of SGEMS input data.
@@ -27,7 +27,6 @@ def batchrun(i,path,numreal,pointset):
     #path = 'C://Users/Ashton/Documents/School/SeniorDesign/scripting/'
     #i=0
     # Filenames for running the batch
-    gridfile = '5-2_gridxy.txt'
     scriptname = 'sgems_script%d.py' % (i)
     batchname = 'test%d.bat' % (i)
     runname = 'testrun%d.txt' % (i)
@@ -41,8 +40,8 @@ def batchrun(i,path,numreal,pointset):
     pointname = 'pointset%d' % (i)
     
     # SGEMS output data file names
-    gridfile = 'gridxy.txt'
-    outfile = '5-2_out%d.txt' % (i)
+    gridfile = 'gridxy_40x40.txt'
+    outfile = 'out%d.txt' % (i)
     
 
 
@@ -64,7 +63,7 @@ def batchrun(i,path,numreal,pointset):
     time.sleep(2)
 
     # Computing weight matrix and outputting
-    [x, y, varmap, datamean] = computeVARmaps(gridfile,outfile)
+    [x, y, varmap, datamean] = computeVARmaps(gridfile,outfile,n)
     [nx,ny] = np.shape(varmap)
     
     

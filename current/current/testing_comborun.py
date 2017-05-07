@@ -31,7 +31,7 @@ numreal = '3' # number of realizations (needs to be string b/c sgems)
 totalCount = 3 # number of points to path at each iteration (keep small)
 current_x=5
 current_y=5
-n = 40
+n = 39
 
 #path = os.getcwd()+'\''
 """
@@ -42,15 +42,15 @@ Path derived from os.getcwd() doesnt interact well with sgems
 input_location = 'sgems_inputs.txt'
 videoclips = []
 # Import gauss data
-dataname1 = 'GaussData_rev409.txt' #'test_fullout.txt' 
+dataname1 = 'gaussdata_40x40.txt' #'test_fullout.txt' 
 with open(dataname1) as f: 
     array = [[float(x) for x in line.split()] for line in f]
 nparray = np.array(array) 
 f.close()
 xx = nparray[:,0]
-xx = xx.reshape(41,41)
+xx = xx.reshape(n+1,n+1)
 yy = nparray[:,1]
-yy = yy.reshape(41,41)
+yy = yy.reshape(n+1,n+1)
 data = nparray[:,2] 
 data = data.reshape(n+1,n+1)
 # Random pointsets for first iteration
@@ -60,26 +60,30 @@ file_object.write('3 \n')
 file_object.write('x \n')
 file_object.write('y \n')
 file_object.write('gravity value \n')
+startingScatterX = []
+startingScatterY = []
 for i in range(3, 6):
     for j in range(3,6):
         file_object.write('%s %s %s \n' % (xx[i][j], yy[i][j], data[i][j]))
+        startingScatterX.append(xx[i][j])
+        startingScatterY.append(yy[i][j])
 file_object.close()
 
 count = np.ones((n+1, n+1))
 count[current_x][current_y] = 0
 array = []
-varmaps = np.zeros((41,41,iterations))
-datamean = np.zeros((41,41,iterations))
+varmaps = np.zeros((n+1,n+1,iterations))
+datamean = np.zeros((n+1,n+1,iterations))
 
 for i in range(iterations):
     # run Sgems
-    [nx,ny,varmaps[:,:,i],gridfile,outfile,datamean[:,:,i]] = batch.batchrun(i,path,numreal,pointset=input_location)
+    [nx,ny,varmaps[:,:,i],gridfile,outfile,datamean[:,:,i]] = batch.batchrun(i,path,numreal,n,pointset=input_location)
     #time.sleep(2)
     # Run pathing
     [current_x, current_y,count,array,weight] = pathing.runPathing(gridfile, array, n, totalCount, current_x, current_y, count, gauss_data=data, data=varmaps[:,:,i], textfile=input_location, loopCount=i)
     #time.sleep(2)
     
-videos.createVideos(array, datamean, n, totalCount, iterations, data)
+videos.createVideos(array, datamean, n, totalCount, iterations, data, varmaps, startingScatterX, startingScatterY)
 #plt.contourf(abs(varmaps[:,:,9]-varmaps[:,:,0]),cmap='coolwarm',vmin=0,vmax=2)
 #plt.colorbar()
 #for i in range(iterations*totalCount):

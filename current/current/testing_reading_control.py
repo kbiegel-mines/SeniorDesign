@@ -12,7 +12,7 @@ import numpy as np
 # This script accepts a grid file (my_file.dat) and a data file (containing N
 # realizations for a single hard data set), and computes the variance map to be
 # used for pathing weights.
-def computeVARmaps(gridfile,outfile):
+def computeVARmaps(gridfile,outfile, n):
         
     # Import X Y coordinates of grid
     filename = gridfile #'my_file.dat'
@@ -22,9 +22,9 @@ def computeVARmaps(gridfile,outfile):
     f.close()
     
     x = nparray[:,0] # x is first collumn, y is second
-    x = x.reshape(41,41)
+    x = x.reshape(n+1,n+1)
     y = nparray[:,1] 
-    y = y.reshape(41,41)
+    y = y.reshape(n+1,n+1)
     
     #%% Importing data file
     #dataname1 = outfile #'test_fullout.txt' 
@@ -44,7 +44,7 @@ def computeVARmaps(gridfile,outfile):
         datamean1.append(np.mean(nparray1[i,:]))
     
     datamean1 = np.array(datamean1)
-    datamean2 = datamean1.reshape(41,41)
+    datamean2 = datamean1.reshape(n+1,n+1)
     
     #plt.figure()
     #plt.contourf(datamean1.reshape(41,41), cmap='coolwarm')
@@ -70,7 +70,7 @@ def computeVARmaps(gridfile,outfile):
     #for i in range(len(nparray1[0,:])):
     for ii in range(len(nparray1[:,0])):
         varmap1[ii] = np.mean(STDdata1[ii,:])        
-    varmap1 = varmap1.reshape(41,41)
+    varmap1 = varmap1.reshape(n+1,n+1)
     
 
     # Normalize to a PDF (for combining with other weights)

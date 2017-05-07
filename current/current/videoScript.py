@@ -16,24 +16,58 @@ from matplotlib import pyplot as plt
 import numpy as np
 import sys
 #from PIL import Image
+import matplotlib as mpl
 
 
-def createVideos(points, datamean, n, count, iterations, data):
+def createVideos(points, datamean, n, count, iterations, data, var, SSX, SSY):
     """
     Points is an ndarray that contains the points added in the pathing function
     var is the variancemaps returned from sGEMs
     mean is the datamean returned from sGEMs
     n is the dimension of the grid
     """
-    # Create datamean plots
+
     counter = 0
     images = []
     mean = []
     dataarr = []
+    levels = [0.0, 0.5, 1.0, 1.5, 2.0]
+
     for i in range(0,iterations):
         fig = plt.figure()
         plt.axis([0, n, 0, n])
-        plt.contourf(datamean[:,:,i], cmap='coolwarm',vmin=0,vmax=2)
+        plt.contourf(var[:,:,i], cmap='coolwarm', vmin=0, vmax=2)
+        #plt.colorbar(ticks=levels, vmin=0., vmax=2.)
+        plot = plt.scatter([], [])
+
+        maxi = np.argmax(var[:,:,i])
+        maxi_tuple = np.unravel_index(maxi, (n+1, n+1))
+        ymax, xmax = maxi_tuple
+        plt.scatter(xmax,ymax)
+
+        plt.scatter(SSX,SSY)
+        
+        plt.axis([0, n, 0, n])
+        
+        for j in range(0,count):
+            plot = plt.scatter([], [])
+            plot.set_offsets(points[0:counter,:])
+            plt.plot(points[0:counter,0], points[0:counter,1])
+            
+            plt.title('Data var map')
+            path2 = 'images/img%i%d.png' % (i,j)
+            plt.savefig(path, format='png')
+            counter = int(counter+1)
+            images.append(path2)
+        
+        plt.colorbar()
+        plt.close()
+
+
+    for i in range(0,iterations):
+        fig = plt.figure()
+        plt.axis([0, n, 0, n])
+        plt.contourf(datamean[:,:,i], vmin=0., vmax=2.0, extend='max', cmap='coolwarm')
         plt.colorbar()
         
         for j in range(0,count):
@@ -45,9 +79,6 @@ def createVideos(points, datamean, n, count, iterations, data):
             path = 'mean/img%i%d.png' % (i,j)
             plt.savefig(path, format='png')
             counter = counter+1
-  
-            path2 = 'images/img%i%d.png' % (i,j)
-            images.append(path2)
             mean.append(path)
         
         plt.close()
@@ -60,7 +91,7 @@ def createVideos(points, datamean, n, count, iterations, data):
             plt.axis([0, n, 0, n])
             data_new[points[counter,0], points[counter,1]] = data[points[counter,0], points[counter,1]]
             #plot = plt.scatter([], [])
-            plt.contourf(data_new, cmap='coolwarm',vmin=0.,vmax=2.)
+            plt.contourf(data_new, vmin=0., vmax=2.0, extend='max', cmap='coolwarm')
             plt.colorbar()
             #plot.set_offsets(points[0:counter,:])
             #plt.plot(points[0:counter,0], points[0:counter,1])

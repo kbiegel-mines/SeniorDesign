@@ -105,9 +105,9 @@ def runPathing(gridfile, array, n, totalCount, current_x, current_y, count, gaus
         f.close()
         
         x = nparray[:,0] # x is first collumn, y is second
-        x = x.reshape(41,41)
+        x = x.reshape(n+1,n+1)
         y = nparray[:,1] 
-        y = y.reshape(41,41)
+        y = y.reshape(n+1,n+1)
         
         #Create grids and arrays
     #    x = np.arange(0, n+1, 1)
@@ -141,18 +141,18 @@ def runPathing(gridfile, array, n, totalCount, current_x, current_y, count, gaus
         # Mark first point as visited
 
         # Ready plot for inside if statement
-        fig = plt.figure()
-        cf0 = plt.contourf(data, cmap='coolwarm',vmin=0,vmax=2)
-        plt.colorbar()
-        plot = plt.scatter([], [])
+        #fig = plt.figure()
+        #cf0 = plt.contourf(data, cmap='coolwarm',vmin=0,vmax=2)
+        #plt.colorbar()
+        #plot = plt.scatter([], [])
         
         #plot point of max variance
-        maxi = np.argmax(data)
-        maxi_tuple = np.unravel_index(maxi, (n+1, n+1))
-        ymax, xmax = maxi_tuple
-        plot1 = plt.scatter(xmax,ymax)
+        #maxi = np.argmax(data)
+        #maxi_tuple = np.unravel_index(maxi, (n+1, n+1))
+        #ymax, xmax = maxi_tuple
+        #plot1 = plt.scatter(xmax,ymax)
         
-        plt.axis([0, n, 0, n])
+        #plt.axis([0, n, 0, n])
         
         #array = plot.get_offsets()
         
@@ -172,19 +172,19 @@ def runPathing(gridfile, array, n, totalCount, current_x, current_y, count, gaus
         current_x, current_y = newPoint(current_x, current_y, weight, n)
         
         # plot new point and save image
-        point = (current_y, current_x)
-        array = np.append(array, point)
-        plot.set_offsets(array)
+        #point = (current_y, current_x)
+        #array = np.append(array, point)
+        #plot.set_offsets(array)
         
         # Plot with lines
-        plt.plot(array[:,0], array[:,1])
+        #plt.plot(array[:,0], array[:,1])
         
         # Save images
-        plt.title('50 iterations, 20 realizations')
-        path = 'images/img%i%d.png' % (loopCount,i)
-        plt.savefig(path, format='png')
+        #plt.title('50 iterations, 20 realizations')
+        #path = 'images/img%i%d.png' % (loopCount,i)
+        #plt.savefig(path, format='png')
         #fig.canvas.draw()
-        plt.close()
+        #plt.close()
     
         #images.append(path)
     

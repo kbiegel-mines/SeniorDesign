@@ -14,8 +14,8 @@ for i in range(len(array)):
     samply.append(array[i][1]) 
     samplz.append(0) 
     samplval.append(array[i][2]) 
-nx = '41' 
-ny = '41' 
+nx = '40' 
+ny = '40' 
 nz = '1' 
 dx = '0.1' 
 dy = '0.1' 
@@ -32,7 +32,7 @@ sgems.execute('RunGeostatAlgorithm  sgsim::/GeostatParamUtils/XML::<parameters> 
 real_319 = [] 
 for i in range(int(3)): 
     real_319.append(sgems.get_property("gridxy1","simtest1__real%d" % (i))) 
-fileout = "C://Users/Katherine/Documents/GitHub/SeniorDesign/current/current/5-2_out1.txt" 
+fileout = "C://Users/Katherine/Documents/GitHub/SeniorDesign/current/current/out1.txt" 
 with open(fileout,'w') as f: 
     for i in range(len(real_319[0])): 
         for j in range(len(real_319)): 

@@ -46,8 +46,8 @@ def writeSGEMSscript(path,scriptname,pointset,gridname,hardname,propname,numreal
     
     # Initialize grid
     ###gridname = 'testgrid'    # Name of grid followed by grid dimensions
-    fid.write("nx = '41' \n")
-    fid.write("ny = '41' \n")
+    fid.write("nx = '40' \n")
+    fid.write("ny = '40' \n")
     fid.write("nz = '1' \n")
     fid.write("dx = '0.1' \n")
     fid.write("dy = '0.1' \n")
