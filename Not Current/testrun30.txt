@@ -1,1 +1,0 @@
-RunScript C:/Users/Katherine/Documents/GitHub/SeniorDesign/scripts/sgems_script30.py
